@@ -7,13 +7,13 @@
   "skpm": {
     "name": "sketch-primitive",
     "manifest": "src/manifest.json",
-    "main": "plugin.sketchplugin"
+    "main": "primitive.sketchplugin"
   },
   "scripts": {
     "build": "skpm-build",
     "watch": "skpm-build --watch",
     "start": "skpm-build --watch --run",
-    "postinstall": "npm run build && skpm-link"
+    "postinstall": "npm run build && skpm-link && mkdir -p primitive.sketchplugin/Contents/Resources && cp src/primitive primitive.sketchplugin/Contents/Resources"
   },
   "devDependencies": {
     "@skpm/builder": "^0.2.0"

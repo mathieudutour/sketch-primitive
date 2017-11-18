@@ -3,15 +3,15 @@
   "bundleVersion": 1,
   "commands": [
     {
-      "name": "my-command",
-      "identifier": "my-command-identifier",
+      "name": "primitive",
+      "identifier": "sketch-primitive.run",
       "script": "./my-command.js"
     }
   ],
   "menu": {
-    "title": "sketch-primitive",
+    "title": "🗿 Primitive",
     "items": [
-      "my-command-identifier"
+      "sketch-primitive.run"
     ]
   }
 }
