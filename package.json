@@ -15,6 +15,7 @@
   },
   "scripts": {
     "build": "skpm-build",
+    "prepare": "skpm-build",
     "watch": "skpm-build --watch",
     "start": "skpm-build --watch --run",
     "postinstall": "npm run build && skpm-link && mkdir -p primitive.sketchplugin/Contents/Resources && cp src/primitive primitive.sketchplugin/Contents/Resources"
