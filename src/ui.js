@@ -45,7 +45,7 @@ export default function createWindow() {
   alert.addButtonWithTitle("OK")
   alert.addButtonWithTitle("Cancel")
   alert.setMessageText("Sketch Primitives")
-  alert.setInformativeText("Primitives tries to find the most optimal shape that can be drawn to maximize the similarity between the target image and the drawn image. It repeats this process, adding one shape at a time. It is quite CPU intensive, so don't panic if you see a beach ball :)")
+  alert.setInformativeText("Primitive tries to find the most optimal shape that can be drawn to maximize the similarity between the target image and the drawn image. It repeats this process, adding one shape at a time. It is quite CPU intensive, so don't panic if you see a beach ball :)")
   alert.setIcon(NSImage.alloc().initByReferencingFile(require('./icon.png').replace('file://', '')));
 
   const typeLabel = createLabel("Shape Type", 12, true, NSMakeRect(0, 0, 300, 16))

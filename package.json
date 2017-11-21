@@ -9,6 +9,10 @@
     "manifest": "src/manifest.json",
     "main": "primitive.sketchplugin"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mathieudutour/sketch-primitive.git"
+  },
   "scripts": {
     "build": "skpm-build",
     "watch": "skpm-build --watch",
