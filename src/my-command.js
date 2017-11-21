@@ -1,8 +1,9 @@
 import exec from './exec'
+import createWindow, { MODES } from './ui'
 
 const PATH_TO_PRIMITIVE = context.plugin.urlForResourceNamed('primitive').path().replace(/ /g, '\\ ')
-const TEMP_JPG_FILE = `${String(NSTemporaryDirectory()())}/primitive-temp.jpg`
-const TEMP_SVG_FILE = `${String(NSTemporaryDirectory()())}/primitive-temp.svg`
+const TEMP_JPG_FILE = `${String(NSTemporaryDirectory())}/primitive-temp.jpg`
+const TEMP_SVG_FILE = `${String(NSTemporaryDirectory())}/primitive-temp.svg`
 
 function getSVGLayerFromFile (path) {
   const svgImporter = MSSVGImporter.svgImporter();
@@ -28,29 +29,33 @@ export default function(context) {
     const bitmapLayers = toArray(context.selection).filter(layer => layer.className() == 'MSBitmapLayer')
 
     if (bitmapLayers.length) {
-      bitmapLayers.forEach(layer => {
-        const image = layer.image().image()
-        let imageData = layer.image().image().TIFFRepresentation()
-        const imageRep = NSBitmapImageRep.imageRepWithData(imageData)
-        const imageProps = {
-          [NSImageCompressionFactor]: NSNumber.numberWithFloat(1.0)
-        };
-        imageData = imageRep.representationUsingType_properties(NSJPEGFileType, imageProps)
-        imageData.writeToFile_atomically(TEMP_JPG_FILE, false)
+      var {ok, inputs} = createWindow();
+      if (ok) {
 
-        try {
-          exec(`${PATH_TO_PRIMITIVE} -i "${TEMP_JPG_FILE}" -o "${TEMP_SVG_FILE}" -n 100`)
+        bitmapLayers.forEach(layer => {
+          const image = layer.image().image()
+          let imageData = layer.image().image().TIFFRepresentation()
+          const imageRep = NSBitmapImageRep.imageRepWithData(imageData)
+          const imageProps = {
+            [NSImageCompressionFactor]: NSNumber.numberWithFloat(1.0)
+          };
+          imageData = imageRep.representationUsingType_properties(NSJPEGFileType, imageProps)
+          imageData.writeToFile_atomically(TEMP_JPG_FILE, false)
 
-          const svgLayer = getSVGLayerFromFile(TEMP_SVG_FILE)
-          svgLayer.setName(layer.name() + ' Primitive');
-          context.document.currentPage().addLayers([svgLayer]);
+          try {
+            exec(`${PATH_TO_PRIMITIVE} -i "${TEMP_JPG_FILE}" -o "${TEMP_SVG_FILE}" -n ${inputs.number} -a ${inputs.alpha} -m ${MODES[inputs.type]}`)
 
-          exec(`rm -f "${TEMP_JPG_FILE}"`)
-          exec(`rm -f "${TEMP_SVG_FILE}"`)
-        } catch (err) {
-          log(err)
-        }
-      })
+            const svgLayer = getSVGLayerFromFile(TEMP_SVG_FILE)
+            svgLayer.setName(layer.name() + ' Primitive');
+            context.document.currentPage().addLayers([svgLayer]);
+
+            exec(`rm -f "${TEMP_JPG_FILE}"`)
+            exec(`rm -f "${TEMP_SVG_FILE}"`)
+          } catch (err) {
+            log(err)
+          }
+        })
+      }
       return
     }
   }
