@@ -21,6 +21,6 @@
     "postinstall": "npm run build && skpm-link && mkdir -p primitive.sketchplugin/Contents/Resources && cp src/primitive primitive.sketchplugin/Contents/Resources"
   },
   "devDependencies": {
-    "@skpm/builder": "^0.2.0"
+    "@skpm/builder": "^0.8.0"
   }
 }
